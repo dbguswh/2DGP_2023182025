@@ -1,9 +1,15 @@
 # 실습 과제 진행
 from pico2d import *
+import math
 
 open_canvas(800, 600)
 
 character = load_image('character.png')
+
+centerx = 400
+centery = 300
+radius = 200
+angle = 0
 
 def move_circle():
     print("CIRCLE")
