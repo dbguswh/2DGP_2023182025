@@ -1,4 +1,19 @@
 # 실습 과제 진행
+def move_circle():
+    print("CIRCLE")
+    pass
+
+def move_rectangle():
+    print("RECTANGLE")
+    pass
+
+def move_triangle():
+    print("TRIANGLE")
+    pass
+
 while (True):
-    pass #내가 뭘 써야할지 모를때 일단 문장은 이루어지게 pass를 쓸 수 있음 (의미 없음)
+    move_circle()
+    move_rectangle()
+    move_triangle()
+    pass
 
