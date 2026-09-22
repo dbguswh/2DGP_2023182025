@@ -26,6 +26,7 @@ def move_circle():
 
 def move_rectangle():
     print("RECTANGLE")
+    x = 200
     pass
 
 def move_triangle():
