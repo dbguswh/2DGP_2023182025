@@ -13,7 +13,7 @@ angle = 0
 
 def move_circle():
     print("CIRCLE")
-
+    global angle
     clear_canvas()
     character.draw(400, 300)
     update_canvas()
