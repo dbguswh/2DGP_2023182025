@@ -33,6 +33,8 @@ def move_rectangle():
         clear_canvas()
         character.draw(x, 150)
         update_canvas()
+        x += 2
+        delay(0.01)
     pass
 
 def move_triangle():
