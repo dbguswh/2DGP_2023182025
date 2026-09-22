@@ -3,6 +3,7 @@ from pico2d import *
 
 open_canvas(800, 600)
 
+character = load_image('character.png')
 
 def move_circle():
     print("CIRCLE")
@@ -22,4 +23,4 @@ while (True):
     move_triangle()
     pass
 
-close_cavnas()
+close_canvas()
