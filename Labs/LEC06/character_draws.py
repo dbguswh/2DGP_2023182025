@@ -19,7 +19,8 @@ def move_circle():
     y = centery + radius * math.sin(angle)
     character.draw(x, y)
     update_canvas()
-    
+
+    angle += 0.05
     pass
 
 def move_rectangle():
