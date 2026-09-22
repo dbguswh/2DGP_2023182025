@@ -81,6 +81,9 @@ def move_triangle():
         x -= 2
         y += 3
         delay(0.01)
+
+    x = 400
+    y = 450
     pass
 
 while (True):
