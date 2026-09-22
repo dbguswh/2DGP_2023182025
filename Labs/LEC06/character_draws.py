@@ -21,6 +21,7 @@ def move_circle():
     update_canvas()
 
     angle += 0.05
+    delay(0.03)
     pass
 
 def move_rectangle():
