@@ -65,6 +65,8 @@ def move_triangle():
     print("TRIANGLE")
 
     x = 200
+    while (x <= 600):
+        pass
     pass
 
 while (True):
