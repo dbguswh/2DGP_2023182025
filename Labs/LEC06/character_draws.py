@@ -17,7 +17,7 @@ def move_circle():
     clear_canvas()
     x = centerx + radius * math.cos(angle)
     y = centery + radius * math.sin(angle)
-    character.draw(400, 300)
+    character.draw(x, y)
     update_canvas()
     
     pass
