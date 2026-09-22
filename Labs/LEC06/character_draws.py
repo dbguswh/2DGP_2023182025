@@ -88,6 +88,9 @@ def move_triangle():
         clear_canvas()
         character.draw(x, y)
         update_canvas()
+        x -= 2
+        y -= 3
+        delay(0.01)
     pass
 
 while (True):
