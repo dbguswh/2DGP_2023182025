@@ -85,7 +85,9 @@ def move_triangle():
     x = 400
     y = 450
     while (x >= 200):
-        pass
+        clear_canvas()
+        character.draw(x, y)
+        update_canvas()
     pass
 
 while (True):
