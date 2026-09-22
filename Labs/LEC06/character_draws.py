@@ -24,7 +24,6 @@ def move_circle():
 
         angle += 0.05
         delay(0.03)
-        pass
 
 def move_rectangle():
     print("RECTANGLE")
@@ -59,7 +58,6 @@ def move_rectangle():
         update_canvas()
         y -= 2
         delay(0.01)
-    pass
 
 def move_triangle():
     print("TRIANGLE")
@@ -91,12 +89,10 @@ def move_triangle():
         x -= 2
         y -= 3
         delay(0.01)
-    pass
 
 while (True):
     move_circle()
     move_rectangle()
     move_triangle()
-    pass
 
 close_canvas()
