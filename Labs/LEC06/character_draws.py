@@ -74,7 +74,8 @@ def move_triangle():
 
     x = 600
     y = 150
- 
+    while (x >= 400):
+        pass
     pass
 
 while (True):
