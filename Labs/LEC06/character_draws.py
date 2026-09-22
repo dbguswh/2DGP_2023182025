@@ -14,19 +14,23 @@ angle = 0
 def move_circle():
     print("CIRCLE")
     global angle
-    clear_canvas()
-    x = centerx + radius * math.cos(angle)
-    y = centery + radius * math.sin(angle)
-    character.draw(x, y)
-    update_canvas()
+    angle = 0
+    while angle < math.pi * 2:
+        clear_canvas()
+        x = centerx + radius * math.cos(angle)
+        y = centery + radius * math.sin(angle)
+        character.draw(x, y)
+        update_canvas()
 
-    angle += 0.05
-    delay(0.03)
-    pass
+        angle += 0.05
+        delay(0.03)
+        pass
 
 def move_rectangle():
     print("RECTANGLE")
     x = 200
+    while (x <= 600):
+        pass
     pass
 
 def move_triangle():
