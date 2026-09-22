@@ -30,7 +30,9 @@ def move_rectangle():
     print("RECTANGLE")
     x = 200
     while (x <= 600):
-        pass
+        clear_canvas()
+        character.draw(x, 150)
+        update_canvas()
     pass
 
 def move_triangle():
