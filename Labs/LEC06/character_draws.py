@@ -63,6 +63,8 @@ def move_rectangle():
 
 def move_triangle():
     print("TRIANGLE")
+
+    x = 200
     pass
 
 while (True):
