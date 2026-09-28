@@ -27,6 +27,10 @@ def move_circle():
     
     pass
 
+def move_top():
+    print("top")
+    pass
+
 def move_rectangle():
     print("RECTANGLE")
     pass
