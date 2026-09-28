@@ -14,7 +14,8 @@ def move_circle():
     radius = 200
 
     for degree in range(360):
-
+        theta = math.radians(degree)
+        
         clear_canvas()
         character.draw(centerX, centerY)
         update_canvas()
