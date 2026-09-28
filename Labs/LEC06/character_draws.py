@@ -11,9 +11,9 @@ def move_circle():
 
     centerX = 400
     centerY = 300
-    
+
     clear_canvas()
-    character.draw(400, 300)
+    character.draw(centerX, centerY)
     update_canvas()
     
     pass
