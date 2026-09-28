@@ -13,9 +13,11 @@ def move_circle():
     centerY = 300
     radius = 200
 
-    clear_canvas()
-    character.draw(centerX, centerY)
-    update_canvas()
+    for degree in range(360):
+
+        clear_canvas()
+        character.draw(centerX, centerY)
+        update_canvas()
     
     pass
 
