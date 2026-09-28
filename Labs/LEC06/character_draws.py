@@ -53,6 +53,7 @@ def move_rectangle():
     print("RECTANGLE")
     move_top()
     move_right()
+    move_bottom()
     pass
 
 def move_triangle():
