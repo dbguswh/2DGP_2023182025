@@ -24,8 +24,6 @@ def move_circle():
         update_canvas()
         delay(0.01)
         
-    
-    pass
 
 def move_top():
     print("top")
@@ -60,7 +58,6 @@ def move_rectangle():
     move_right()
     move_bottom()
     move_left()
-    pass
 
 def move_triangle_side1():
     print("triangle side 1")
@@ -88,12 +85,10 @@ def move_triangle():
     move_triangle_side1()
     move_triangle_side2()
     move_triangle_side3()
-    pass
 
 while (True):
     move_circle()
     move_rectangle()
     move_triangle()
-    pass
 
 close_canvas()
