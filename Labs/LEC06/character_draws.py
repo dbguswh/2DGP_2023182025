@@ -45,6 +45,8 @@ def draw_character(x, y):
 
 def move_rectangle():
     print("RECTANGLE")
+    move_top()
+    move_right()
     pass
 
 def move_triangle():
