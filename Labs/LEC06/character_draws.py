@@ -77,7 +77,11 @@ def move_triangle_side2():
 
 def move_triangle_side3():
     print("triangle side 3")
-    pass
+    for step in range(101):
+        ratio = step / 100
+        x = 400 + (50 - 400) * ratio
+        y = 50 + (550 - 50) * ratio
+        draw_character(x, y)
 
 def move_triangle():
     print("TRIANGLE")
