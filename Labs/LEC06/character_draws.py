@@ -20,7 +20,7 @@ def move_circle():
         y = centerY + radius * math.sin(theta)
 
         clear_canvas()
-        character.draw(centerX, centerY)
+        character.draw(x, y)
         update_canvas()
         
     
