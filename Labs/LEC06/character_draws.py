@@ -67,6 +67,10 @@ def move_triangle_side1():
     for x in range(50, 750, 5):
         draw_character(x, 550)
 
+def move_triangle_side2():
+    print("triangle side 2")
+    pass
+
 def move_triangle():
     print("TRIANGLE")
     move_triangle_side1()
