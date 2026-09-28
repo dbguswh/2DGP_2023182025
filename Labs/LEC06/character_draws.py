@@ -11,6 +11,7 @@ def move_circle():
 
     centerX = 400
     centerY = 300
+    radius = 200
 
     clear_canvas()
     character.draw(centerX, centerY)
