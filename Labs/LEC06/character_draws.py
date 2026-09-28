@@ -15,10 +15,14 @@ def move_circle():
 
     for degree in range(360):
         theta = math.radians(degree)
-        
+
+        x = centerX + radius * math.cos(theta)
+        y = centerY + radius * math.sin(theta)
+
         clear_canvas()
         character.draw(centerX, centerY)
         update_canvas()
+        
     
     pass
 
