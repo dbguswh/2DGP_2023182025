@@ -75,6 +75,10 @@ def move_triangle_side2():
         y = 550 + (50 - 550) * ratio
         draw_character(x, y)
 
+def move_triangle_side3():
+    print("triangle side 3")
+    pass
+
 def move_triangle():
     print("TRIANGLE")
     move_triangle_side1()
