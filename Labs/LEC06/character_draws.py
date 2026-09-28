@@ -39,7 +39,9 @@ def move_right():
 
 def move_bottom():
     print("bottom")
-    pass
+    for x in range(745, 49, -5):
+        draw_character(x, 50)
+
 
 def draw_character(x, y):
     clear_canvas()
