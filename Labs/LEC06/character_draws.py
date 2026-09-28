@@ -78,6 +78,7 @@ def move_triangle_side2():
 def move_triangle():
     print("TRIANGLE")
     move_triangle_side1()
+    move_triangle_side2()
     pass
 
 while (True):
