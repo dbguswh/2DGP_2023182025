@@ -62,6 +62,10 @@ def move_rectangle():
     move_left()
     pass
 
+def move_triangle_side1():
+    print("triangle side 1")
+    pass
+
 def move_triangle():
     print("TRIANGLE")
     pass
