@@ -33,6 +33,14 @@ def frames_from_edges(x_edges: tuple[int, ...], top: int, bottom: int) -> tuple[
     )
 
 
+# Original sheet coordinates: top-left origin, unevenly sized frames.
+IDLE = Animation(
+    "Idle",
+    frames_from_edges((1, 292, 599, 896, 1213, 1539, 1856), 54, 402),
+    8,
+)
+
+
 def main():
     open_canvas(800, 600)
     load_image(str(SHEET_PATH))
