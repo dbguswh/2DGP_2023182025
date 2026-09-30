@@ -11,6 +11,7 @@ SHEET_WIDTH = 3840
 SHEET_HEIGHT = 10933
 DISPLAY_HEIGHT = 500
 REPEAT_COUNT = 5
+PAUSE_SECONDS = 1.0
 
 
 @dataclass(frozen=True)
@@ -108,6 +109,8 @@ def play_animation_once(image, animation: Animation) -> None:
 def play_animation(image, animation: Animation) -> None:
     for _ in range(REPEAT_COUNT):
         play_animation_once(image, animation)
+    # Keep the final frame visible during the pause.
+    delay(PAUSE_SECONDS)
 
 
 def main():
