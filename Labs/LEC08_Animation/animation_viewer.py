@@ -98,12 +98,17 @@ def draw_frame(image, frame: Frame) -> None:
     update_canvas()
 
 
+def play_animation_once(image, animation: Animation) -> None:
+    for frame in animation.frames:
+        draw_frame(image, frame)
+        delay(1.0 / animation.fps)
+
+
 def main():
     validate_animations((IDLE, WALK, RUN, JUMP))
     open_canvas(800, 600)
     image = load_image(str(SHEET_PATH))
-    draw_frame(image, IDLE.frames[0])
-    delay(1.0)
+    play_animation_once(image, IDLE)
     close_canvas()
 
 
