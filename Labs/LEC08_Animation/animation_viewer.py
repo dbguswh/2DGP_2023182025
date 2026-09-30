@@ -135,14 +135,16 @@ def play_animation(image, animation: Animation) -> bool:
 def main():
     validate_animations(ANIMATIONS)
     open_canvas(800, 600)
-    image = load_image(str(SHEET_PATH))
-    running = True
-    while running:
-        for animation in ANIMATIONS:
-            if not play_animation(image, animation):
-                running = False
-                break
-    close_canvas()
+    try:
+        image = load_image(str(SHEET_PATH))
+        running = True
+        while running:
+            for animation in ANIMATIONS:
+                if not play_animation(image, animation):
+                    running = False
+                    break
+    finally:
+        close_canvas()
 
 
 if __name__ == "__main__":
