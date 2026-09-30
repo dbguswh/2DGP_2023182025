@@ -3,7 +3,10 @@
 from dataclasses import dataclass
 from pathlib import Path
 
-from pico2d import clear_canvas, close_canvas, delay, load_image, open_canvas, update_canvas
+from pico2d import (
+    SDL_KEYDOWN, SDL_QUIT, SDLK_ESCAPE,
+    clear_canvas, close_canvas, delay, get_events, load_image, open_canvas, update_canvas,
+)
 
 
 SHEET_PATH = Path(__file__).with_name("sprite_sheet.png")
@@ -102,26 +105,43 @@ def draw_frame(image, frame: Frame) -> None:
     update_canvas()
 
 
-def play_animation_once(image, animation: Animation) -> None:
+def quit_requested() -> bool:
+    for event in get_events():
+        if event.type == SDL_QUIT:
+            return True
+        if event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
+            return True
+    return False
+
+
+def play_animation_once(image, animation: Animation) -> bool:
     for frame in animation.frames:
+        if quit_requested():
+            return False
         draw_frame(image, frame)
         delay(1.0 / animation.fps)
+    return True
 
 
-def play_animation(image, animation: Animation) -> None:
+def play_animation(image, animation: Animation) -> bool:
     for _ in range(REPEAT_COUNT):
-        play_animation_once(image, animation)
+        if not play_animation_once(image, animation):
+            return False
     # Keep the final frame visible during the pause.
     delay(PAUSE_SECONDS)
+    return True
 
 
 def main():
     validate_animations(ANIMATIONS)
     open_canvas(800, 600)
     image = load_image(str(SHEET_PATH))
-    while True:
+    running = True
+    while running:
         for animation in ANIMATIONS:
-            play_animation(image, animation)
+            if not play_animation(image, animation):
+                running = False
+                break
     close_canvas()
 
 
