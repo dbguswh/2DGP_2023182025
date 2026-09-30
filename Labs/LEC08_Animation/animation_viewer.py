@@ -73,6 +73,8 @@ JUMP = Animation(
     12,
 )
 
+ANIMATIONS = (IDLE, WALK, RUN, JUMP)
+
 
 def validate_animations(animations: tuple[Animation, ...]) -> None:
     for animation in animations:
@@ -114,10 +116,11 @@ def play_animation(image, animation: Animation) -> None:
 
 
 def main():
-    validate_animations((IDLE, WALK, RUN, JUMP))
+    validate_animations(ANIMATIONS)
     open_canvas(800, 600)
     image = load_image(str(SHEET_PATH))
-    play_animation(image, IDLE)
+    for animation in ANIMATIONS:
+        play_animation(image, animation)
     close_canvas()
 
 
