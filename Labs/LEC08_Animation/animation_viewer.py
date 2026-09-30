@@ -59,6 +59,17 @@ RUN = Animation(
 )
 
 
+JUMP = Animation(
+    "Jump",
+    frames_from_edges(
+        (1252, 1438, 1613, 1830, 2041, 2221, 2367, 2524, 2703, 2908, 3065, 3216, 3370, 3592, 3763),
+        1165,
+        1510,
+    ),
+    12,
+)
+
+
 def main():
     open_canvas(800, 600)
     load_image(str(SHEET_PATH))
