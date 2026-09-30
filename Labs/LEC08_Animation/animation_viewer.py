@@ -10,6 +10,7 @@ SHEET_PATH = Path(__file__).with_name("sprite_sheet.png")
 SHEET_WIDTH = 3840
 SHEET_HEIGHT = 10933
 DISPLAY_HEIGHT = 500
+REPEAT_COUNT = 5
 
 
 @dataclass(frozen=True)
@@ -104,11 +105,16 @@ def play_animation_once(image, animation: Animation) -> None:
         delay(1.0 / animation.fps)
 
 
+def play_animation(image, animation: Animation) -> None:
+    for _ in range(REPEAT_COUNT):
+        play_animation_once(image, animation)
+
+
 def main():
     validate_animations((IDLE, WALK, RUN, JUMP))
     open_canvas(800, 600)
     image = load_image(str(SHEET_PATH))
-    play_animation_once(image, IDLE)
+    play_animation(image, IDLE)
     close_canvas()
 
 
