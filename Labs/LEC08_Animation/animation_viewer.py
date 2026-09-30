@@ -9,6 +9,7 @@ from pico2d import clear_canvas, close_canvas, delay, load_image, open_canvas, u
 SHEET_PATH = Path(__file__).with_name("sprite_sheet.png")
 SHEET_WIDTH = 3840
 SHEET_HEIGHT = 10933
+DISPLAY_HEIGHT = 500
 
 
 @dataclass(frozen=True)
@@ -89,7 +90,11 @@ def validate_animations(animations: tuple[Animation, ...]) -> None:
 
 def draw_frame(image, frame: Frame) -> None:
     clear_canvas()
-    image.clip_draw(frame.left, frame.bottom, frame.width, frame.height, 400, 300)
+    display_width = round(frame.width * DISPLAY_HEIGHT / frame.height)
+    image.clip_draw(
+        frame.left, frame.bottom, frame.width, frame.height,
+        400, 300, display_width, DISPLAY_HEIGHT,
+    )
     update_canvas()
 
 
