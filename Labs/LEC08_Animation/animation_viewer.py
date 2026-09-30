@@ -41,6 +41,17 @@ IDLE = Animation(
 )
 
 
+WALK = Animation(
+    "Walk",
+    frames_from_edges(
+        (1, 246, 425, 605, 788, 977, 1121, 1231, 1342, 1476, 1643, 1768, 1879, 2023),
+        1511,
+        1825,
+    ),
+    10,
+)
+
+
 def main():
     open_canvas(800, 600)
     load_image(str(SHEET_PATH))
