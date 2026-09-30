@@ -2,6 +2,7 @@
 
 from dataclasses import dataclass
 from pathlib import Path
+from time import monotonic
 
 from pico2d import (
     SDL_KEYDOWN, SDL_QUIT, SDLK_ESCAPE,
@@ -114,6 +115,15 @@ def quit_requested() -> bool:
     return False
 
 
+def pause_with_events(seconds: float) -> bool:
+    deadline = monotonic() + seconds
+    while monotonic() < deadline:
+        if quit_requested():
+            return False
+        delay(min(0.05, deadline - monotonic()))
+    return True
+
+
 def play_animation_once(image, animation: Animation) -> bool:
     for frame in animation.frames:
         if quit_requested():
@@ -128,8 +138,7 @@ def play_animation(image, animation: Animation) -> bool:
         if not play_animation_once(image, animation):
             return False
     # Keep the final frame visible during the pause.
-    delay(PAUSE_SECONDS)
-    return True
+    return pause_with_events(PAUSE_SECONDS)
 
 
 def main():
