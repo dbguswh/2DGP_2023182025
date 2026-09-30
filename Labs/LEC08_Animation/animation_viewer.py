@@ -7,6 +7,7 @@ from pico2d import close_canvas, load_image, open_canvas
 
 
 SHEET_PATH = Path(__file__).with_name("sprite_sheet.png")
+SHEET_WIDTH = 3840
 SHEET_HEIGHT = 10933
 
 
@@ -70,7 +71,24 @@ JUMP = Animation(
 )
 
 
+def validate_animations(animations: tuple[Animation, ...]) -> None:
+    for animation in animations:
+        if not animation.frames or animation.fps <= 0:
+            raise ValueError(f"Invalid animation: {animation.name}")
+        for frame in animation.frames:
+            if (
+                frame.left < 0
+                or frame.bottom < 0
+                or frame.width <= 0
+                or frame.height <= 0
+                or frame.left + frame.width > SHEET_WIDTH
+                or frame.bottom + frame.height > SHEET_HEIGHT
+            ):
+                raise ValueError(f"Frame outside sprite sheet: {animation.name} {frame}")
+
+
 def main():
+    validate_animations((IDLE, WALK, RUN, JUMP))
     open_canvas(800, 600)
     load_image(str(SHEET_PATH))
     close_canvas()
