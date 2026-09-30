@@ -119,8 +119,9 @@ def main():
     validate_animations(ANIMATIONS)
     open_canvas(800, 600)
     image = load_image(str(SHEET_PATH))
-    for animation in ANIMATIONS:
-        play_animation(image, animation)
+    while True:
+        for animation in ANIMATIONS:
+            play_animation(image, animation)
     close_canvas()
 
 
