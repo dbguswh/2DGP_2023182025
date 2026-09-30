@@ -3,7 +3,7 @@
 from dataclasses import dataclass
 from pathlib import Path
 
-from pico2d import close_canvas, load_image, open_canvas
+from pico2d import clear_canvas, close_canvas, delay, load_image, open_canvas, update_canvas
 
 
 SHEET_PATH = Path(__file__).with_name("sprite_sheet.png")
@@ -87,10 +87,18 @@ def validate_animations(animations: tuple[Animation, ...]) -> None:
                 raise ValueError(f"Frame outside sprite sheet: {animation.name} {frame}")
 
 
+def draw_frame(image, frame: Frame) -> None:
+    clear_canvas()
+    image.clip_draw(frame.left, frame.bottom, frame.width, frame.height, 400, 300)
+    update_canvas()
+
+
 def main():
     validate_animations((IDLE, WALK, RUN, JUMP))
     open_canvas(800, 600)
-    load_image(str(SHEET_PATH))
+    image = load_image(str(SHEET_PATH))
+    draw_frame(image, IDLE.frames[0])
+    delay(1.0)
     close_canvas()
 
 
