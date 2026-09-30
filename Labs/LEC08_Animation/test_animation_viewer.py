@@ -40,6 +40,17 @@ class AnimationViewerTests(unittest.TestCase):
         self.assertEqual(once.call_count, 5)
         pause.assert_called_once_with(1.0)
 
+    def test_all_animations_repeat_in_order_until_quit(self):
+        with patch.object(viewer, "open_canvas"), patch.object(viewer, "close_canvas") as close:
+            with patch.object(viewer, "load_image", return_value=Mock()):
+                with patch.object(viewer, "play_animation", side_effect=[True] * 8 + [False]) as play:
+                    viewer.main()
+        self.assertEqual(
+            [call.args[1].name for call in play.call_args_list],
+            ["Idle", "Walk", "Run", "Jump"] * 2 + ["Idle"],
+        )
+        close.assert_called_once()
+
 
 if __name__ == "__main__":
     unittest.main()
