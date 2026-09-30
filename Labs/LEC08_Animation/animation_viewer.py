@@ -11,7 +11,7 @@ from pico2d import (
 
 SHEET_PATH = Path(__file__).with_name("sprite_sheet.png")
 SHEET_WIDTH = 3840
-SHEET_HEIGHT = 10933
+SHEET_HEIGHT = 2138
 DISPLAY_HEIGHT = 500
 REPEAT_COUNT = 5
 PAUSE_SECONDS = 1.0
