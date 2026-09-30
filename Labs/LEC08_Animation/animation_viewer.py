@@ -52,6 +52,13 @@ WALK = Animation(
 )
 
 
+RUN = Animation(
+    "Run",
+    frames_from_edges((1, 256, 507, 761, 974, 1210, 1479, 1735, 1964, 2178), 1865, 2138),
+    14,
+)
+
+
 def main():
     open_canvas(800, 600)
     load_image(str(SHEET_PATH))
