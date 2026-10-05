@@ -68,6 +68,26 @@ SEQUENCES = (
 )
 
 
+def validate_sequences(image_width, image_height):
+    """PRD의 프레임 수와 이미지 내부 좌표를 확인한다."""
+    expected_counts = (11, 12, 6, 8, 7, 6, 6, 6, 2, 8, 2, 2)
+    actual_counts = tuple(len(frames) for _, frames in SEQUENCES)
+    if actual_counts != expected_counts:
+        raise ValueError(f"동작별 프레임 수가 PRD와 다릅니다: {actual_counts}")
+
+    used_rectangles = set()
+    for name, frames in SEQUENCES:
+        for rectangle in frames:
+            x, y, width, height = rectangle
+            if min(x, y) < 0 or min(width, height) <= 0:
+                raise ValueError(f"{name}: 잘못된 프레임 영역 {rectangle}")
+            if x + width > image_width or y + height > image_height:
+                raise ValueError(f"{name}: 이미지 밖의 프레임 영역 {rectangle}")
+            if rectangle in used_rectangles:
+                raise ValueError(f"{name}: 중복된 프레임 영역 {rectangle}")
+            used_rectangles.add(rectangle)
+
+
 def main():
     if not SPRITE_PATH.is_file():
         raise FileNotFoundError(f"스프라이트 이미지를 찾을 수 없습니다: {SPRITE_PATH}")
@@ -75,6 +95,7 @@ def main():
     open_canvas(CANVAS_WIDTH, CANVAS_HEIGHT)
     try:
         sprite_image = load_image(str(SPRITE_PATH))
+        validate_sequences(sprite_image.w, sprite_image.h)
         running = True
         while running:
             for event in get_events():
