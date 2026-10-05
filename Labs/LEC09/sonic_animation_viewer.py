@@ -88,6 +88,11 @@ def validate_sequences(image_width, image_height):
             used_rectangles.add(rectangle)
 
 
+def draw_frame(image, rectangle):
+    """시트에서 프레임 하나만 잘라 그린다."""
+    image.clip_draw(*rectangle, CANVAS_WIDTH // 2, CANVAS_HEIGHT // 2)
+
+
 def main():
     if not SPRITE_PATH.is_file():
         raise FileNotFoundError(f"스프라이트 이미지를 찾을 수 없습니다: {SPRITE_PATH}")
@@ -103,6 +108,7 @@ def main():
                     running = False
 
             clear_canvas()
+            draw_frame(sprite_image, SEQUENCES[0][1][0])
             update_canvas()
             delay(0.01)
     finally:
