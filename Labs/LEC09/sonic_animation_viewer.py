@@ -92,10 +92,11 @@ def validate_sequences(image_width, image_height):
 def draw_frame(image, rectangle):
     """시트에서 프레임 하나만 잘라 그린다."""
     x, y, width, height = rectangle
+    scale = min(DISPLAY_SCALE, CANVAS_WIDTH / width, CANVAS_HEIGHT / height)
     image.clip_draw(
         x, y, width, height,
         CANVAS_WIDTH // 2, CANVAS_HEIGHT // 2,
-        width * DISPLAY_SCALE, height * DISPLAY_SCALE,
+        width * scale, height * scale,
     )
 
 
