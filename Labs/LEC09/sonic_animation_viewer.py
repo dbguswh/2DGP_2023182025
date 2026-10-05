@@ -9,6 +9,7 @@ CANVAS_HEIGHT = 600
 FPS = 10
 REPEAT_COUNT = 5
 PAUSE_SECONDS = 1.0
+DISPLAY_SCALE = 6
 SPRITE_PATH = Path(__file__).with_name("sonic-sprite.png")
 
 # 프레임 좌표는 pico2d의 좌하단 원점 기준 (x, y, 너비, 높이).
@@ -90,7 +91,12 @@ def validate_sequences(image_width, image_height):
 
 def draw_frame(image, rectangle):
     """시트에서 프레임 하나만 잘라 그린다."""
-    image.clip_draw(*rectangle, CANVAS_WIDTH // 2, CANVAS_HEIGHT // 2)
+    x, y, width, height = rectangle
+    image.clip_draw(
+        x, y, width, height,
+        CANVAS_WIDTH // 2, CANVAS_HEIGHT // 2,
+        width * DISPLAY_SCALE, height * DISPLAY_SCALE,
+    )
 
 
 def main():
