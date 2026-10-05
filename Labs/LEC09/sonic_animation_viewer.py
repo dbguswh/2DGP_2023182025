@@ -13,6 +13,9 @@ SPRITE_PATH = Path(__file__).with_name("sonic-sprite.png")
 
 
 def main():
+    if not SPRITE_PATH.is_file():
+        raise FileNotFoundError(f"스프라이트 이미지를 찾을 수 없습니다: {SPRITE_PATH}")
+
     open_canvas(CANVAS_WIDTH, CANVAS_HEIGHT)
     try:
         sprite_image = load_image(str(SPRITE_PATH))
