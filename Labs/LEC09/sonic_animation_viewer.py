@@ -119,8 +119,7 @@ class Playback:
             if self.frame_index < last_frame:
                 self.frame_index += 1
             else:
-                self.elapsed = 0.0
-                break
+                self.frame_index = 0
 
 
 def main():
