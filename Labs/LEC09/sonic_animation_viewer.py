@@ -2,9 +2,15 @@
 
 from pico2d import SDL_QUIT, clear_canvas, close_canvas, delay, get_events, open_canvas, update_canvas
 
+CANVAS_WIDTH = 1200
+CANVAS_HEIGHT = 600
+FPS = 10
+REPEAT_COUNT = 5
+PAUSE_SECONDS = 1.0
+
 
 def main():
-    open_canvas()
+    open_canvas(CANVAS_WIDTH, CANVAS_HEIGHT)
     try:
         running = True
         while running:
