@@ -133,10 +133,12 @@ class Playback:
                 if self.elapsed + 1e-9 < PAUSE_SECONDS:
                     break
                 self.elapsed = max(0.0, self.elapsed - PAUSE_SECONDS)
-                self.phase = "finished"
+                self.sequence_index = (self.sequence_index + 1) % len(SEQUENCES)
+                self.frame_index = 0
+                self.completed_loops = 0
+                self.phase = "playing"
             else:
-                self.elapsed = 0.0
-                break
+                raise RuntimeError(f"알 수 없는 재생 상태: {self.phase}")
 
 
 def main():
