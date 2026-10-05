@@ -9,7 +9,7 @@ CANVAS_HEIGHT = 600
 FPS = 10
 REPEAT_COUNT = 5
 PAUSE_SECONDS = 1.0
-DISPLAY_SCALE = 6
+DISPLAY_SCALE = 4
 FRAME_SECONDS = 1 / FPS
 SPRITE_PATH = Path(__file__).with_name("sonic-sprite.png")
 
