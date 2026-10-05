@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from pico2d import SDL_QUIT, clear_canvas, close_canvas, delay, get_events, get_time, load_image, open_canvas, update_canvas
+from pico2d import SDL_KEYDOWN, SDL_QUIT, SDLK_ESCAPE, clear_canvas, close_canvas, delay, get_events, get_time, load_image, open_canvas, update_canvas
 
 CANVAS_WIDTH = 1200
 CANVAS_HEIGHT = 600
@@ -154,8 +154,12 @@ def main():
         running = True
         while running:
             for event in get_events():
-                if event.type == SDL_QUIT:
+                if event.type == SDL_QUIT or (
+                    event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE
+                ):
                     running = False
+            if not running:
+                break
 
             now = get_time()
             playback.update(now - last_time)
