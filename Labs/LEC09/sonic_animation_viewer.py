@@ -69,6 +69,13 @@ SEQUENCES = (
     )),
 )
 
+# 시퀀스 순서에 대응하는 화면 이동 속도 (x, y), 픽셀/초.
+MOVE_VELOCITIES = (
+    (90, 0), (180, 0), (260, 0), (0, 0),
+    (160, 0), (220, 0), (280, 0), (0, 0),
+    (0, -100), (0, -130), (0, 0), (0, 0),
+)
+
 
 def validate_sequences(image_width, image_height):
     """PRD의 프레임 수와 이미지 내부 좌표를 확인한다."""
@@ -76,6 +83,8 @@ def validate_sequences(image_width, image_height):
     actual_counts = tuple(len(frames) for _, frames in SEQUENCES)
     if actual_counts != expected_counts:
         raise ValueError(f"동작별 프레임 수가 PRD와 다릅니다: {actual_counts}")
+    if len(MOVE_VELOCITIES) != len(SEQUENCES):
+        raise ValueError("동작별 이동 속도 목록의 길이가 다릅니다")
 
     used_rectangles = set()
     for name, frames in SEQUENCES:
@@ -90,13 +99,15 @@ def validate_sequences(image_width, image_height):
             used_rectangles.add(rectangle)
 
 
-def draw_frame(image, rectangle):
+def draw_frame(image, rectangle, position=None):
     """시트에서 프레임 하나만 잘라 그린다."""
     x, y, width, height = rectangle
     scale = min(DISPLAY_SCALE, CANVAS_WIDTH / width, CANVAS_HEIGHT / height)
+    if position is None:
+        position = (CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2)
     image.clip_draw(
         x, y, width, height,
-        CANVAS_WIDTH // 2, CANVAS_HEIGHT // 2,
+        *position,
         width * scale, height * scale,
     )
 
@@ -113,6 +124,33 @@ class Playback:
     def current_frame(self):
         return SEQUENCES[self.sequence_index][1][self.frame_index]
 
+    @property
+    def current_position(self):
+        velocity_x, velocity_y = MOVE_VELOCITIES[self.sequence_index]
+        center_x, center_y = CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2
+        if velocity_x == velocity_y == 0:
+            return center_x, center_y
+
+        frames = SEQUENCES[self.sequence_index][1]
+        frame_count = len(frames)
+        if self.phase == "waiting":
+            moving_seconds = REPEAT_COUNT * frame_count * FRAME_SECONDS
+        else:
+            moving_seconds = (
+                (self.completed_loops * frame_count + self.frame_index)
+                * FRAME_SECONDS + self.elapsed
+            )
+
+        half_width = max(frame[2] for frame in frames) * DISPLAY_SCALE / 2
+        half_height = max(frame[3] for frame in frames) * DISPLAY_SCALE / 2
+        x = center_x + velocity_x * moving_seconds
+        y = center_y + velocity_y * moving_seconds
+        if velocity_x:
+            x = (x + half_width) % (CANVAS_WIDTH + 2 * half_width) - half_width
+        if velocity_y:
+            y = (y + half_height) % (CANVAS_HEIGHT + 2 * half_height) - half_height
+        return x, y
+
     def update(self, delta_seconds):
         self.elapsed += max(0.0, delta_seconds)
         while True:
@@ -120,6 +158,8 @@ class Playback:
                 if self.elapsed + 1e-9 < FRAME_SECONDS:
                     break
                 self.elapsed = max(0.0, self.elapsed - FRAME_SECONDS)
+                if self.elapsed < 1e-9:
+                    self.elapsed = 0.0
                 last_frame = len(SEQUENCES[self.sequence_index][1]) - 1
                 if self.frame_index < last_frame:
                     self.frame_index += 1
@@ -133,6 +173,8 @@ class Playback:
                 if self.elapsed + 1e-9 < PAUSE_SECONDS:
                     break
                 self.elapsed = max(0.0, self.elapsed - PAUSE_SECONDS)
+                if self.elapsed < 1e-9:
+                    self.elapsed = 0.0
                 self.sequence_index = (self.sequence_index + 1) % len(SEQUENCES)
                 self.frame_index = 0
                 self.completed_loops = 0
@@ -165,7 +207,7 @@ def main():
             playback.update(now - last_time)
             last_time = now
             clear_canvas()
-            draw_frame(sprite_image, playback.current_frame)
+            draw_frame(sprite_image, playback.current_frame, playback.current_position)
             update_canvas()
             delay(0.01)
     finally:
