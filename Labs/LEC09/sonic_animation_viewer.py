@@ -106,6 +106,7 @@ class Playback:
         self.sequence_index = 0
         self.frame_index = 0
         self.completed_loops = 0
+        self.phase = "playing"
         self.elapsed = 0.0
 
     @property
@@ -113,21 +114,29 @@ class Playback:
         return SEQUENCES[self.sequence_index][1][self.frame_index]
 
     def update(self, delta_seconds):
-        if self.completed_loops == REPEAT_COUNT:
-            return
         self.elapsed += max(0.0, delta_seconds)
-        last_frame = len(SEQUENCES[self.sequence_index][1]) - 1
-        while self.elapsed + 1e-9 >= FRAME_SECONDS:
-            self.elapsed = max(0.0, self.elapsed - FRAME_SECONDS)
-            if self.frame_index < last_frame:
-                self.frame_index += 1
-            else:
-                self.completed_loops += 1
-                if self.completed_loops < REPEAT_COUNT:
-                    self.frame_index = 0
-                else:
-                    self.elapsed = 0.0
+        while True:
+            if self.phase == "playing":
+                if self.elapsed + 1e-9 < FRAME_SECONDS:
                     break
+                self.elapsed = max(0.0, self.elapsed - FRAME_SECONDS)
+                last_frame = len(SEQUENCES[self.sequence_index][1]) - 1
+                if self.frame_index < last_frame:
+                    self.frame_index += 1
+                else:
+                    self.completed_loops += 1
+                    if self.completed_loops < REPEAT_COUNT:
+                        self.frame_index = 0
+                    else:
+                        self.phase = "waiting"
+            elif self.phase == "waiting":
+                if self.elapsed + 1e-9 < PAUSE_SECONDS:
+                    break
+                self.elapsed = max(0.0, self.elapsed - PAUSE_SECONDS)
+                self.phase = "finished"
+            else:
+                self.elapsed = 0.0
+                break
 
 
 def main():
