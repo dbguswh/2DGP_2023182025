@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from pico2d import SDL_QUIT, clear_canvas, close_canvas, delay, get_events, load_image, open_canvas, update_canvas
+from pico2d import SDL_QUIT, clear_canvas, close_canvas, delay, get_events, get_time, load_image, open_canvas, update_canvas
 
 CANVAS_WIDTH = 1200
 CANVAS_HEIGHT = 600
@@ -10,6 +10,7 @@ FPS = 10
 REPEAT_COUNT = 5
 PAUSE_SECONDS = 1.0
 DISPLAY_SCALE = 6
+FRAME_SECONDS = 1 / FPS
 SPRITE_PATH = Path(__file__).with_name("sonic-sprite.png")
 
 # 프레임 좌표는 pico2d의 좌하단 원점 기준 (x, y, 너비, 높이).
@@ -100,6 +101,28 @@ def draw_frame(image, rectangle):
     )
 
 
+class Playback:
+    def __init__(self):
+        self.sequence_index = 0
+        self.frame_index = 0
+        self.elapsed = 0.0
+
+    @property
+    def current_frame(self):
+        return SEQUENCES[self.sequence_index][1][self.frame_index]
+
+    def update(self, delta_seconds):
+        self.elapsed += max(0.0, delta_seconds)
+        last_frame = len(SEQUENCES[self.sequence_index][1]) - 1
+        while self.elapsed + 1e-9 >= FRAME_SECONDS:
+            self.elapsed = max(0.0, self.elapsed - FRAME_SECONDS)
+            if self.frame_index < last_frame:
+                self.frame_index += 1
+            else:
+                self.elapsed = 0.0
+                break
+
+
 def main():
     if not SPRITE_PATH.is_file():
         raise FileNotFoundError(f"스프라이트 이미지를 찾을 수 없습니다: {SPRITE_PATH}")
@@ -108,14 +131,19 @@ def main():
     try:
         sprite_image = load_image(str(SPRITE_PATH))
         validate_sequences(sprite_image.w, sprite_image.h)
+        playback = Playback()
+        last_time = get_time()
         running = True
         while running:
             for event in get_events():
                 if event.type == SDL_QUIT:
                     running = False
 
+            now = get_time()
+            playback.update(now - last_time)
+            last_time = now
             clear_canvas()
-            draw_frame(sprite_image, SEQUENCES[0][1][0])
+            draw_frame(sprite_image, playback.current_frame)
             update_canvas()
             delay(0.01)
     finally:
